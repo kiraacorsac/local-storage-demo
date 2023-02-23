@@ -1,39 +1,49 @@
+import { useState } from "react";
+import { useLocalStorage } from "./useLocalStorage";
+
 function App() {
 
+  const [name, setName] = useState(""); //volatile
+  const [persistentName, setPersistentName] = useLocalStorage("name", "not defined");
+  // localStorage.setItem("name", name) //persistent
 
-  // localStorage.setItem('test', 'Hello world!')
-  // localStorage.setItem('test', 1)
-  // localStorage.setItem('test2', 'hello')
-
-  for (let i = 0; i < localStorage.length; i++) {
-    const key = localStorage.key(i);
-    console.log(localStorage.getItem(key))
+  function handleNameChange(event) {
+    setName(event.target.value);
   }
 
-  const person = {
-    name: "Juraj",
-    favoriteAnimal: {
-      specie: "dog",
-      size: "big"
-    },
-    clothing: ["Shirt", "Pants", "Hat"],
-    numberOfHeads: 1
+  function handleNameSave(event) {
+    setPersistentName(name)
   }
+  // const person = {
+  //   name: "Quentin",
+  //   favoriteAnimal: {
+  //     specie: "dog",
+  //     size: "big"
+  //   },
+  //   clothing: ["Shirt", "Pants", "Hat"],
+  //   numberOfHeads: 1
+  // }
 
   // console.log(JSON.stringify(person));
   // console.log(JSON.parse(JSON.stringify(person)))
 
-  // sessionStorage.setItem("juraj", JSON.stringify(person))
+  // localStorage.setItem("quentin", JSON.stringify(person))
 
+
+  // for (const clothing of JSON.parse(localStorage.getItem('quentin')).clothing) {
+  //   console.log(clothing)
+  // }
   return (
 
 
     <div >
-      <input name="address" />
-
-      Hello!
+      <input onChange={handleNameChange} type="text"></input>
+      <button onClick={handleNameSave} >Save</button>
       <p>
-        {/* {JSON.parse(sessionStorage.getItem('juraj')).name} */}
+        Volatile Storage: {name}
+      </p>
+      <p>
+        Persisten Storage: {persistentName}
       </p>
     </div>
   );
